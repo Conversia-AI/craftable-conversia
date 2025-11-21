@@ -1,7 +1,7 @@
 package memoryx
 
 import (
-	"github.com/Abraxas-365/craftable/ai/llm"
+	"github.com/Conversia-AI/craftable-conversia/ai/llm"
 )
 
 // Memory represents a conversation memory with system prompt management

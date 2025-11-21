@@ -13,8 +13,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Abraxas-365/craftable/errx"
-	"github.com/Abraxas-365/craftable/logx"
+	"github.com/Conversia-AI/craftable-conversia/errx"
+	"github.com/Conversia-AI/craftable-conversia/logx"
 )
 
 // Client represents a HubSpot API client

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Abraxas-365/craftable/ptrx"
+	"github.com/Conversia-AI/craftable-conversia/ptrx"
 )
 
 type User struct {

@@ -7,8 +7,8 @@
 // Basic Usage:
 //
 //	import (
-//		"github.com/Abraxas-365/craftable/errx"
-//		"github.com/Abraxas-365/craftable/validatex"
+//		"github.com/Conversia-AI/craftable-conversia/errx"
+//		"github.com/Conversia-AI/craftable-conversia/validatex"
 //	)
 //
 //	type User struct {

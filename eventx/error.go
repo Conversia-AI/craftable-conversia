@@ -3,7 +3,7 @@ package eventx
 import (
 	"net/http"
 
-	"github.com/Abraxas-365/craftable/errx"
+	"github.com/Conversia-AI/craftable-conversia/errx"
 )
 
 // Error registry for eventx package

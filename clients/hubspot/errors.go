@@ -3,7 +3,7 @@ package hubspot
 import (
 	"net/http"
 
-	"github.com/Abraxas-365/craftable/errx"
+	"github.com/Conversia-AI/craftable-conversia/errx"
 )
 
 // Registry is the error registry for HubSpot operations

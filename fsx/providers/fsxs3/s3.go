@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Abraxas-365/craftable/errx"
-	"github.com/Abraxas-365/craftable/fsx"
+	"github.com/Conversia-AI/craftable-conversia/errx"
+	"github.com/Conversia-AI/craftable-conversia/fsx"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/aws/aws-sdk-go-v2/service/s3/types"

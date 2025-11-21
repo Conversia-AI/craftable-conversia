@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"sync"
 
-	"github.com/Abraxas-365/craftable/errx"
+	"github.com/Conversia-AI/craftable-conversia/errx"
 )
 
 // Mapper provides type-safe conversion between DTOs and domain models

@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Abraxas-365/craftable/ai/document"
-	"github.com/Abraxas-365/craftable/ai/embedding"
-	"github.com/Abraxas-365/craftable/ai/splitterx"
-	"github.com/Abraxas-365/craftable/errx"
+	"github.com/Conversia-AI/craftable-conversia/ai/document"
+	"github.com/Conversia-AI/craftable-conversia/ai/embedding"
+	"github.com/Conversia-AI/craftable-conversia/ai/splitterx"
+	"github.com/Conversia-AI/craftable-conversia/errx"
 	"github.com/google/uuid"
 )
 

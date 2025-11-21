@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Abraxas-365/craftable/storex"
+	"github.com/Conversia-AI/craftable-conversia/storex"
 )
 
 // MemoryStore is an in-memory implementation of Repository, BulkOperator, TxManager, and ChangeStream

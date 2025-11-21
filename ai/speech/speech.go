@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/Abraxas-365/craftable/fsx"
-	"github.com/Abraxas-365/craftable/fsx/providers/fsxlocal"
+	"github.com/Conversia-AI/craftable-conversia/fsx"
+	"github.com/Conversia-AI/craftable-conversia/fsx/providers/fsxlocal"
 )
 
 //---------- Text-to-Speech (TTS) ----------//

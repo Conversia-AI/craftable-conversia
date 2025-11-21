@@ -4,8 +4,8 @@ import (
 	"context"
 	"sync"
 
-	"github.com/Abraxas-365/craftable/eventx"
-	"github.com/Abraxas-365/craftable/logx"
+	"github.com/Conversia-AI/craftable-conversia/eventx"
+	"github.com/Conversia-AI/craftable-conversia/logx"
 )
 
 // MemoryBus implements EventBus interface using in-memory storage

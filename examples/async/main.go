@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/Abraxas-365/craftable/asyncx"
+	"github.com/Conversia-AI/craftable-conversia/asyncx"
 )
 
 func main() {
@@ -381,4 +381,3 @@ func realWorldExample(ctx context.Context) {
 		}
 	}
 }
-

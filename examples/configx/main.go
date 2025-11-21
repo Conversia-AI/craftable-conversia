@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/Abraxas-365/craftable/configx"
+	"github.com/Conversia-AI/craftable-conversia/configx"
 )
 
 func main() {

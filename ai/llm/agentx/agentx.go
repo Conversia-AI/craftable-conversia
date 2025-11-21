@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/Abraxas-365/craftable/ai/llm"
-	"github.com/Abraxas-365/craftable/ai/llm/memoryx"
-	"github.com/Abraxas-365/craftable/ai/llm/toolx"
+	"github.com/Conversia-AI/craftable-conversia/ai/llm"
+	"github.com/Conversia-AI/craftable-conversia/ai/llm/memoryx"
+	"github.com/Conversia-AI/craftable-conversia/ai/llm/toolx"
 )
 
 // Agent represents an LLM-powered agent with memory and tool capabilities

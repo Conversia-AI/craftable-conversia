@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Abraxas-365/craftable/ai/document"
+	"github.com/Conversia-AI/craftable-conversia/ai/document"
 	"github.com/pkoukk/tiktoken-go"
 )
 
@@ -344,4 +344,3 @@ func (s *SimpleTokenSplitter) CountTokens(text string) int {
 	tokens := s.tokenizer.Encode(text, nil, nil)
 	return len(tokens)
 }
-

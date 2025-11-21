@@ -6,8 +6,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/Abraxas-365/craftable/ai/embedding"
-	"github.com/Abraxas-365/craftable/ai/providers/aiopenai"
+	"github.com/Conversia-AI/craftable-conversia/ai/embedding"
+	"github.com/Conversia-AI/craftable-conversia/ai/providers/aiopenai"
 )
 
 func main() {

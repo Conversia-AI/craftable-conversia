@@ -5,7 +5,7 @@ import (
 	"io"
 	"time"
 
-	"github.com/Abraxas-365/craftable/fsx"
+	"github.com/Conversia-AI/craftable-conversia/fsx"
 	"github.com/google/uuid"
 )
 
@@ -118,4 +118,3 @@ func (d *StreamingDocument) Close() error {
 	}
 	return nil
 }
-

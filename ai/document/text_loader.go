@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/Abraxas-365/craftable/fsx"
+	"github.com/Conversia-AI/craftable-conversia/fsx"
 )
 
 type TextLoader struct {

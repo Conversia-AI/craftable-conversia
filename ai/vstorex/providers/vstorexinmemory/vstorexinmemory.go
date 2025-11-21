@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Abraxas-365/craftable/ai/vstorex"
+	"github.com/Conversia-AI/craftable-conversia/ai/vstorex"
 )
 
 // InMemoryStore provides an in-memory implementation of the Store interface

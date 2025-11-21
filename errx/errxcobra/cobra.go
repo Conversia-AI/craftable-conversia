@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Abraxas-365/craftable/errx"
+	"github.com/Conversia-AI/craftable-conversia/errx"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )

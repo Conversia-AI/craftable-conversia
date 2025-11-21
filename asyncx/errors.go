@@ -3,7 +3,7 @@ package asyncx
 import (
 	"fmt"
 
-	"github.com/Abraxas-365/craftable/errx"
+	"github.com/Conversia-AI/craftable-conversia/errx"
 )
 
 // Error registry for asyncx

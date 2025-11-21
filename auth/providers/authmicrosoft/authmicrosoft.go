@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Abraxas-365/craftable/auth"
-	"github.com/Abraxas-365/craftable/errx"
+	"github.com/Conversia-AI/craftable-conversia/auth"
+	"github.com/Conversia-AI/craftable-conversia/errx"
 	"github.com/golang-jwt/jwt/v5"
 )
 

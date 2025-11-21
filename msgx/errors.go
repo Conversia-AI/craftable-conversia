@@ -3,7 +3,7 @@ package msgx
 import (
 	"net/http"
 
-	"github.com/Abraxas-365/craftable/errx"
+	"github.com/Conversia-AI/craftable-conversia/errx"
 )
 
 var Registry = errx.NewRegistry("MESSAGING")

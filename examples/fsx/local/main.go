@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/Abraxas-365/craftable/fsx/providers/fsxlocal"
+	"github.com/Conversia-AI/craftable-conversia/fsx/providers/fsxlocal"
 )
 
 func main() {

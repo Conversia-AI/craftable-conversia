@@ -8,8 +8,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Abraxas-365/craftable/eventx"
-	"github.com/Abraxas-365/craftable/logx"
+	"github.com/Conversia-AI/craftable-conversia/eventx"
+	"github.com/Conversia-AI/craftable-conversia/logx"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/sqs"

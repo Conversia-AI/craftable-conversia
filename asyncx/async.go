@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Abraxas-365/craftable/errx"
+	"github.com/Conversia-AI/craftable-conversia/errx"
 )
 
 // AsyncAll runs the provided function on each item in parallel and returns all results

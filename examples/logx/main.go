@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Abraxas-365/craftable/logx"
+	"github.com/Conversia-AI/craftable-conversia/logx"
 )
 
 // Example structs to demonstrate formatting
@@ -377,4 +377,3 @@ func createSampleConfig() map[string]interface{} {
 		},
 	}
 }
-

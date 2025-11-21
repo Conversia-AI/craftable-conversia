@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Abraxas-365/craftable/ai/vstorex"
+	"github.com/Conversia-AI/craftable-conversia/ai/vstorex"
 	"github.com/jmoiron/sqlx"
 	"github.com/pgvector/pgvector-go"
 )

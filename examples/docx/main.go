@@ -1,13 +1,14 @@
 package main
 
 import (
-	"github.com/Abraxas-365/craftable/docx"
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
 	"math/rand"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/Conversia-AI/craftable-conversia/docx"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 // Define your DTOs
@@ -233,4 +234,3 @@ func main() {
 
 	app.Listen(":3000")
 }
-

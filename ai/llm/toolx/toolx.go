@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/Abraxas-365/craftable/ai/llm"
+	"github.com/Conversia-AI/craftable-conversia/ai/llm"
 )
 
 type Toolx interface {

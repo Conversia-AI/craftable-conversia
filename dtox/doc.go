@@ -7,7 +7,7 @@
 // Basic Example:
 //
 //	import (
-//		"github.com/Abraxas-365/craftable/dtox"
+//		"github.com/Conversia-AI/craftable-conversia/dtox"
 //	)
 //
 //	// Define DTO and model types

@@ -11,10 +11,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Abraxas-365/craftable/ai/embedding"
-	"github.com/Abraxas-365/craftable/ai/llm"
-	"github.com/Abraxas-365/craftable/ai/ocr"
-	"github.com/Abraxas-365/craftable/ai/speech"
+	"github.com/Conversia-AI/craftable-conversia/ai/embedding"
+	"github.com/Conversia-AI/craftable-conversia/ai/llm"
+	"github.com/Conversia-AI/craftable-conversia/ai/ocr"
+	"github.com/Conversia-AI/craftable-conversia/ai/speech"
 	"github.com/openai/openai-go/v3"
 	"github.com/openai/openai-go/v3/option"
 	"github.com/openai/openai-go/v3/packages/param"
@@ -917,4 +917,3 @@ func (p *OpenAIProvider) Transcribe(ctx context.Context, audio io.Reader, opts .
 
 	return result, nil
 }
-

@@ -5,10 +5,10 @@
 </p>
 
 <p align="center">
-  <a href="https://pkg.go.dev/github.com/Abraxas-365/craftable"><img src="https://pkg.go.dev/badge/github.com/Abraxas-365/craftable.svg" alt="Go Reference"></a>
-  <a href="https://goreportcard.com/report/github.com/Abraxas-365/craftable"><img src="https://goreportcard.com/badge/github.com/Abraxas-365/craftable" alt="Go Report Card"></a>
+  <a href="https://pkg.go.dev/github.com/Conversia-AI/craftable-conversia"><img src="https://pkg.go.dev/badge/github.com/Conversia-AI/craftable-conversia.svg" alt="Go Reference"></a>
+  <a href="https://goreportcard.com/report/github.com/Conversia-AI/craftable-conversia"><img src="https://goreportcard.com/badge/github.com/Conversia-AI/craftable-conversia" alt="Go Report Card"></a>
   <a href="LICENSE"><img src="https://img.shields.io/github/license/Abraxas-365/craftable" alt="License"></a>
-  <a href="https://github.com/Abraxas-365/craftable/releases"><img src="https://img.shields.io/github/v/release/Abraxas-365/craftable" alt="GitHub release"></a>
+  <a href="https://github.com/Conversia-AI/craftable-conversia/releases"><img src="https://img.shields.io/github/v/release/Abraxas-365/craftable" alt="GitHub release"></a>
 </p>
 
 **Craftable** is a collection of high-quality, reusable Go packages designed to accelerate application development. It provides elegant solutions for common challenges like error handling, authentication, and CLI interactions.
@@ -236,20 +236,20 @@ A flexible configuration management system that supports multiple sources:
 ## 🚀 Installation
 
 ```bash
-go get github.com/Abraxas-365/craftable
+go get github.com/Conversia-AI/craftable-conversia
 ```
 
 Or install specific packages:
 
 ```bash
-go get github.com/Abraxas-365/craftable/errx
-go get github.com/Abraxas-365/craftable/auth
-go get github.com/Abraxas-365/craftable/storex
-go get github.com/Abraxas-365/craftable/dtox
-go get github.com/Abraxas-365/craftable/validatex
-go get github.com/Abraxas-365/craftable/ai/llm
-go get github.com/Abraxas-365/craftable/ai/embedding
-go get github.com/Abraxas-365/craftable/ai/ocr
+go get github.com/Conversia-AI/craftable-conversia/errx
+go get github.com/Conversia-AI/craftable-conversia/auth
+go get github.com/Conversia-AI/craftable-conversia/storex
+go get github.com/Conversia-AI/craftable-conversia/dtox
+go get github.com/Conversia-AI/craftable-conversia/validatex
+go get github.com/Conversia-AI/craftable-conversia/ai/llm
+go get github.com/Conversia-AI/craftable-conversia/ai/embedding
+go get github.com/Conversia-AI/craftable-conversia/ai/ocr
 ```
 
 ## 📝 Example Usage
@@ -262,7 +262,7 @@ package main
 import (
     "net/http"
     
-    "github.com/Abraxas-365/craftable/errx"
+    "github.com/Conversia-AI/craftable-conversia/errx"
 )
 
 func main() {
@@ -290,8 +290,8 @@ package main
 import (
     "time"
     
-    "github.com/Abraxas-365/craftable/auth"
-    "github.com/Abraxas-365/craftable/auth/providers/authgoogle"
+    "github.com/Conversia-AI/craftable-conversia/auth"
+    "github.com/Conversia-AI/craftable-conversia/auth/providers/authgoogle"
 )
 
 func main() {
@@ -516,8 +516,8 @@ import (
     "fmt"
     "time"
     
-    "github.com/Abraxas-365/craftable/dtox"
-    "github.com/Abraxas-365/craftable/errx"
+    "github.com/Conversia-AI/craftable-conversia/dtox"
+    "github.com/Conversia-AI/craftable-conversia/errx"
 )
 
 // Define DTO and model types
@@ -606,8 +606,8 @@ import (
     "fmt"
     "net/http"
     
-    "github.com/Abraxas-365/craftable/errx"
-    "github.com/Abraxas-365/craftable/validatex"
+    "github.com/Conversia-AI/craftable-conversia/errx"
+    "github.com/Conversia-AI/craftable-conversia/validatex"
 )
 
 // Define a struct with validation rules
@@ -710,7 +710,7 @@ func main() {
 ### API Documentation (docx)
 
 ```go
-import "github.com/Abraxas-365/craftable/docx"
+import "github.com/Conversia-AI/craftable-conversia/docx"
 
 // Define your DTOs
 type UserCreateRequest struct {
@@ -779,8 +779,8 @@ import (
     "io"
     "os"
 
-    "github.com/Abraxas-365/craftable/ai/providers/aiopenai"
-    "github.com/Abraxas-365/craftable/ai/llm"
+    "github.com/Conversia-AI/craftable-conversia/ai/providers/aiopenai"
+    "github.com/Conversia-AI/craftable-conversia/ai/llm"
 )
 
 func main() {
@@ -858,11 +858,11 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Abraxas-365/craftable/ai/providers/aiopenai"
-	"github.com/Abraxas-365/craftable/ai/llm"
-	"github.com/Abraxas-365/craftable/ai/llm/agentx"
-	"github.com/Abraxas-365/craftable/ai/llm/memoryx"
-	"github.com/Abraxas-365/craftable/ai/llm/toolx"
+	"github.com/Conversia-AI/craftable-conversia/ai/providers/aiopenai"
+	"github.com/Conversia-AI/craftable-conversia/ai/llm"
+	"github.com/Conversia-AI/craftable-conversia/ai/llm/agentx"
+	"github.com/Conversia-AI/craftable-conversia/ai/llm/memoryx"
+	"github.com/Conversia-AI/craftable-conversia/ai/llm/toolx"
 )
 
 func main() {
@@ -1023,12 +1023,12 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Abraxas-365/craftable/ai/providers/aiopenai"
-	"github.com/Abraxas-365/craftable/ai/llm"
-	"github.com/Abraxas-365/craftable/ai/llm/agentx"
-	"github.com/Abraxas-365/craftable/ai/llm/guardrailx"
-	"github.com/Abraxas-365/craftable/ai/llm/memoryx"
-	"github.com/Abraxas-365/craftable/ai/llm/toolx"
+	"github.com/Conversia-AI/craftable-conversia/ai/providers/aiopenai"
+	"github.com/Conversia-AI/craftable-conversia/ai/llm"
+	"github.com/Conversia-AI/craftable-conversia/ai/llm/agentx"
+	"github.com/Conversia-AI/craftable-conversia/ai/llm/guardrailx"
+	"github.com/Conversia-AI/craftable-conversia/ai/llm/memoryx"
+	"github.com/Conversia-AI/craftable-conversia/ai/llm/toolx"
 )
 
 func main() {
@@ -1223,8 +1223,8 @@ import (
     "log"
     "os"
 
-    "github.com/Abraxas-365/craftable/ai/providers/aiopenai"
-    "github.com/Abraxas-365/craftable/ai/embedding"
+    "github.com/Conversia-AI/craftable-conversia/ai/providers/aiopenai"
+    "github.com/Conversia-AI/craftable-conversia/ai/embedding"
 )
 
 func main() {
@@ -1287,8 +1287,8 @@ import (
     "log"
     "os"
 
-    "github.com/Abraxas-365/craftable/ai/providers/aiopenai"
-    "github.com/Abraxas-365/craftable/ai/ocr"
+    "github.com/Conversia-AI/craftable-conversia/ai/providers/aiopenai"
+    "github.com/Conversia-AI/craftable-conversia/ai/ocr"
 )
 
 func main() {
@@ -1341,8 +1341,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/Abraxas-365/craftable/ai/providers/aiopenai"
-	"github.com/Abraxas-365/craftable/ai/speech"
+	"github.com/Conversia-AI/craftable-conversia/ai/providers/aiopenai"
+	"github.com/Conversia-AI/craftable-conversia/ai/speech"
 	"github.com/openai/openai-go"
 )
 
@@ -1434,7 +1434,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/Abraxas-365/craftable/configx"
+	"github.com/Conversia-AI/craftable-conversia/configx"
 )
 
 func main() {
@@ -1485,7 +1485,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/Abraxas-365/craftable/configx"
+	"github.com/Conversia-AI/craftable-conversia/configx"
 )
 
 func main() {
@@ -1530,7 +1530,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Abraxas-365/craftable/configx"
+	"github.com/Conversia-AI/craftable-conversia/configx"
 )
 
 func main() {
@@ -1588,12 +1588,12 @@ Craftable follows these core principles:
 
 For detailed documentation and examples for each package, see:
 
-- [errx Documentation](https://pkg.go.dev/github.com/Abraxas-365/craftable/errx)
-- [auth Documentation](https://pkg.go.dev/github.com/Abraxas-365/craftable/auth)
-- [storex Documentation](https://pkg.go.dev/github.com/Abraxas-365/craftable/storex)
-- [dtox Documentation](https://pkg.go.dev/github.com/Abraxas-365/craftable/dtox)
-- [validatex Documentation](https://pkg.go.dev/github.com/Abraxas-365/craftable/validatex)
-- [ai Documentation](https://pkg.go.dev/github.com/Abraxas-365/craftable/ai)
+- [errx Documentation](https://pkg.go.dev/github.com/Conversia-AI/craftable-conversia/errx)
+- [auth Documentation](https://pkg.go.dev/github.com/Conversia-AI/craftable-conversia/auth)
+- [storex Documentation](https://pkg.go.dev/github.com/Conversia-AI/craftable-conversia/storex)
+- [dtox Documentation](https://pkg.go.dev/github.com/Conversia-AI/craftable-conversia/dtox)
+- [validatex Documentation](https://pkg.go.dev/github.com/Conversia-AI/craftable-conversia/validatex)
+- [ai Documentation](https://pkg.go.dev/github.com/Conversia-AI/craftable-conversia/ai)
 
 ## 📜 License
 

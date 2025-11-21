@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Abraxas-365/craftable/storex"
+	"github.com/Conversia-AI/craftable-conversia/storex"
 	"github.com/jmoiron/sqlx"
 	"github.com/lib/pq"
 	_ "github.com/lib/pq"

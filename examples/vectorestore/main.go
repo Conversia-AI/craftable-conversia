@@ -6,11 +6,11 @@ import (
 	"log"
 	"os"
 
-	"github.com/Abraxas-365/craftable/ai/document"
-	"github.com/Abraxas-365/craftable/ai/providers/aiopenai"
-	"github.com/Abraxas-365/craftable/ai/splitterx"
-	"github.com/Abraxas-365/craftable/ai/vstorex"
-	"github.com/Abraxas-365/craftable/ai/vstorex/providers/vstorexinmemory"
+	"github.com/Conversia-AI/craftable-conversia/ai/document"
+	"github.com/Conversia-AI/craftable-conversia/ai/providers/aiopenai"
+	"github.com/Conversia-AI/craftable-conversia/ai/splitterx"
+	"github.com/Conversia-AI/craftable-conversia/ai/vstorex"
+	"github.com/Conversia-AI/craftable-conversia/ai/vstorex/providers/vstorexinmemory"
 )
 
 func main() {

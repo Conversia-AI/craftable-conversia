@@ -15,8 +15,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/Abraxas-365/craftable/msgx"
-	"github.com/Abraxas-365/craftable/msgx/providers/msgxwhatsapp"
+	"github.com/Conversia-AI/craftable-conversia/msgx"
+	"github.com/Conversia-AI/craftable-conversia/msgx/providers/msgxwhatsapp"
 	"github.com/gorilla/mux"
 )
 

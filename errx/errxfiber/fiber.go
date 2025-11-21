@@ -4,7 +4,7 @@ import (
 	"errors"
 	"log"
 
-	"github.com/Abraxas-365/craftable/errx"
+	"github.com/Conversia-AI/craftable-conversia/errx"
 	"github.com/gofiber/fiber/v2"
 )
 

@@ -8,12 +8,12 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Abraxas-365/craftable/ai/llm"
-	"github.com/Abraxas-365/craftable/ai/llm/agentx"
-	"github.com/Abraxas-365/craftable/ai/llm/guardrailx"
-	"github.com/Abraxas-365/craftable/ai/llm/memoryx"
-	"github.com/Abraxas-365/craftable/ai/llm/toolx"
-	"github.com/Abraxas-365/craftable/ai/providers/aiopenai"
+	"github.com/Conversia-AI/craftable-conversia/ai/llm"
+	"github.com/Conversia-AI/craftable-conversia/ai/llm/agentx"
+	"github.com/Conversia-AI/craftable-conversia/ai/llm/guardrailx"
+	"github.com/Conversia-AI/craftable-conversia/ai/llm/memoryx"
+	"github.com/Conversia-AI/craftable-conversia/ai/llm/toolx"
+	"github.com/Conversia-AI/craftable-conversia/ai/providers/aiopenai"
 )
 
 func main() {

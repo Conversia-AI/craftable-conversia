@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/Abraxas-365/craftable/fmtx"
+	"github.com/Conversia-AI/craftable-conversia/fmtx"
 )
 
 type Person struct {

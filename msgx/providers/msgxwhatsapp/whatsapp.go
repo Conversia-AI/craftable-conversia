@@ -17,8 +17,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Abraxas-365/craftable/logx"
-	"github.com/Abraxas-365/craftable/msgx"
+	"github.com/Conversia-AI/craftable-conversia/logx"
+	"github.com/Conversia-AI/craftable-conversia/msgx"
 )
 
 const (

@@ -9,7 +9,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/Abraxas-365/craftable/fsx"
+	"github.com/Conversia-AI/craftable-conversia/fsx"
 )
 
 // LocalFS implements the fsx.FileSystem interface using the local file system

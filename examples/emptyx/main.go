@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/Abraxas-365/craftable/emptyx"
+	"github.com/Conversia-AI/craftable-conversia/emptyx"
 )
 
 func main() {
