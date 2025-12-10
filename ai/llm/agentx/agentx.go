@@ -369,10 +369,8 @@ func (a *Agent) EvaluateWithTools(ctx context.Context, userInput string) (*Agent
 
 	evalStep.OutputMessage = response.Message
 	evalStep.TokenUsage = response.Usage
-	if response.DetailedUsage != nil {
-		evalStep.TokenUsageWithDetails = *response.DetailedUsage
-	}
 	eval.Steps = append(eval.Steps, evalStep)
+	eval.Model = response.Model
 
 	// Add the response to memory
 	if err := a.memory.Add(response.Message); err != nil {
@@ -496,14 +494,14 @@ type AgentEvaluation struct {
 	UserInput     string      `json:"user_input"`
 	Steps         []AgentStep `json:"steps"`
 	FinalResponse string      `json:"final_response"`
+	Model         string      `json:"model"`
 }
 
 type AgentStep struct {
-	StepType              string            `json:"step_type"`                          // "initial", "tool_execution", "response"
-	InputMessages         []llm.Message     `json:"input_message"`                      // Messages sent to the LLM
-	OutputMessage         llm.Message       `json:"output_message"`                     // Response from the LLM
-	ToolCalls             []llm.ToolCall    `json:"tool_calls"`                         // Tool calls made
-	ToolResponses         []llm.Message     `json:"tool_responses"`                     // Responses from the tools
-	TokenUsage            llm.Usage         `json:"token_usage"`                        // Token usage information
-	TokenUsageWithDetails llm.DetailedUsage `json:"token_usage_with_details,omitempty"` // Detailed token usage information
+	StepType      string         `json:"step_type"`      // "initial", "tool_execution", "response"
+	InputMessages []llm.Message  `json:"input_message"`  // Messages sent to the LLM
+	OutputMessage llm.Message    `json:"output_message"` // Response from the LLM
+	ToolCalls     []llm.ToolCall `json:"tool_calls"`     // Tool calls made
+	ToolResponses []llm.Message  `json:"tool_responses"` // Responses from the tools
+	TokenUsage    llm.Usage      `json:"token_usage"`    // Token usage information
 }

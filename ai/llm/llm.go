@@ -15,9 +15,9 @@ type LLM interface {
 
 // Response contains the model's response and additional metadata
 type Response struct {
-	Message       Message
-	Usage         Usage
-	DetailedUsage *DetailedUsage
+	Model   string
+	Message Message
+	Usage   Usage
 }
 
 // Stream represents a streaming response

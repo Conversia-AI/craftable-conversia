@@ -502,40 +502,11 @@ func convertFromOpenAIResponse(completion *openai.ChatCompletion) (llm.Response,
 		TotalTokens:      int(completion.Usage.TotalTokens),
 	}
 
-	detailedUsage := convertDetailedUsage(completion)
-
 	return llm.Response{
-		Message:       message,
-		Usage:         usage,
-		DetailedUsage: detailedUsage,
+		Model:   completion.Model,
+		Message: message,
+		Usage:   usage,
 	}, nil
-}
-
-func convertDetailedUsage(completation *openai.ChatCompletion) *llm.DetailedUsage {
-	detailed := &llm.DetailedUsage{
-		PromptTokens:     completation.Usage.PromptTokens,
-		CompletionTokens: completation.Usage.CompletionTokens,
-		TotalTokens:      completation.Usage.TotalTokens,
-		Model:            completation.Model,
-	}
-
-	if completation.Usage.JSON.CompletionTokensDetails.Valid() {
-		detailed.CompletionTokensDetails = &llm.CompletionTokensDetails{
-			AcceptedPredictionTokens: completation.Usage.CompletionTokensDetails.AcceptedPredictionTokens,
-			AudioTokens:              completation.Usage.CompletionTokensDetails.AudioTokens,
-			ReasoningTokens:          completation.Usage.CompletionTokensDetails.ReasoningTokens,
-			RejectedPredictionTokens: completation.Usage.CompletionTokensDetails.RejectedPredictionTokens,
-		}
-	}
-
-	if completation.Usage.JSON.PromptTokensDetails.Valid() {
-		detailed.PromptTokensDetails = &llm.PromptTokensDetails{
-			AudioTokens:  completation.Usage.PromptTokensDetails.AudioTokens,
-			CachedTokens: completation.Usage.PromptTokensDetails.CachedTokens,
-		}
-	}
-
-	return detailed
 }
 
 func (p *OpenAIProvider) EmbedDocuments(ctx context.Context, documents []string, opts ...embedding.Option) ([]embedding.Embedding, error) {
