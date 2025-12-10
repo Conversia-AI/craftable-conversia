@@ -502,10 +502,35 @@ func convertFromOpenAIResponse(completion *openai.ChatCompletion) (llm.Response,
 		TotalTokens:      int(completion.Usage.TotalTokens),
 	}
 
+	detailedUsage := convertDetailedUsage(completion.Usage)
+
 	return llm.Response{
-		Message: message,
-		Usage:   usage,
+		Message:       message,
+		Usage:         usage,
+		DetailedUsage: detailedUsage,
 	}, nil
+}
+
+func convertDetailedUsage(usage openai.CompletionUsage) *llm.DetailedUsage {
+	detailed := &llm.DetailedUsage{
+		PromptTokens:     usage.PromptTokens,
+		CompletionTokens: usage.CompletionTokens,
+		TotalTokens:      usage.TotalTokens,
+	}
+
+	detailed.CompletionTokensDetails = &llm.CompletionTokensDetails{
+		AcceptedPredictionTokens: usage.CompletionTokensDetails.AcceptedPredictionTokens,
+		AudioTokens:              usage.CompletionTokensDetails.AudioTokens,
+		ReasoningTokens:          usage.CompletionTokensDetails.ReasoningTokens,
+		RejectedPredictionTokens: usage.CompletionTokensDetails.RejectedPredictionTokens,
+	}
+
+	detailed.PromptTokensDetails = &llm.PromptTokensDetails{
+		AudioTokens:  usage.PromptTokensDetails.AudioTokens,
+		CachedTokens: usage.PromptTokensDetails.CachedTokens,
+	}
+
+	return detailed
 }
 
 func (p *OpenAIProvider) EmbedDocuments(ctx context.Context, documents []string, opts ...embedding.Option) ([]embedding.Embedding, error) {
