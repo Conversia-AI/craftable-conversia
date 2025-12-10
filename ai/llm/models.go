@@ -32,6 +32,7 @@ type DetailedUsage struct {
 	PromptTokens     int64
 	CompletionTokens int64
 	TotalTokens      int64
+	Model            string
 
 	// Breakdown of completion tokens
 	CompletionTokensDetails *CompletionTokensDetails

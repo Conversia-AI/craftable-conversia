@@ -502,7 +502,7 @@ func convertFromOpenAIResponse(completion *openai.ChatCompletion) (llm.Response,
 		TotalTokens:      int(completion.Usage.TotalTokens),
 	}
 
-	detailedUsage := convertDetailedUsage(completion.Usage)
+	detailedUsage := convertDetailedUsage(completion)
 
 	return llm.Response{
 		Message:       message,
@@ -511,23 +511,28 @@ func convertFromOpenAIResponse(completion *openai.ChatCompletion) (llm.Response,
 	}, nil
 }
 
-func convertDetailedUsage(usage openai.CompletionUsage) *llm.DetailedUsage {
+func convertDetailedUsage(completation *openai.ChatCompletion) *llm.DetailedUsage {
 	detailed := &llm.DetailedUsage{
-		PromptTokens:     usage.PromptTokens,
-		CompletionTokens: usage.CompletionTokens,
-		TotalTokens:      usage.TotalTokens,
+		PromptTokens:     completation.Usage.PromptTokens,
+		CompletionTokens: completation.Usage.CompletionTokens,
+		TotalTokens:      completation.Usage.TotalTokens,
+		Model:            completation.Model,
 	}
 
-	detailed.CompletionTokensDetails = &llm.CompletionTokensDetails{
-		AcceptedPredictionTokens: usage.CompletionTokensDetails.AcceptedPredictionTokens,
-		AudioTokens:              usage.CompletionTokensDetails.AudioTokens,
-		ReasoningTokens:          usage.CompletionTokensDetails.ReasoningTokens,
-		RejectedPredictionTokens: usage.CompletionTokensDetails.RejectedPredictionTokens,
+	if completation.Usage.JSON.CompletionTokensDetails.Valid() {
+		detailed.CompletionTokensDetails = &llm.CompletionTokensDetails{
+			AcceptedPredictionTokens: completation.Usage.CompletionTokensDetails.AcceptedPredictionTokens,
+			AudioTokens:              completation.Usage.CompletionTokensDetails.AudioTokens,
+			ReasoningTokens:          completation.Usage.CompletionTokensDetails.ReasoningTokens,
+			RejectedPredictionTokens: completation.Usage.CompletionTokensDetails.RejectedPredictionTokens,
+		}
 	}
 
-	detailed.PromptTokensDetails = &llm.PromptTokensDetails{
-		AudioTokens:  usage.PromptTokensDetails.AudioTokens,
-		CachedTokens: usage.PromptTokensDetails.CachedTokens,
+	if completation.Usage.JSON.PromptTokensDetails.Valid() {
+		detailed.PromptTokensDetails = &llm.PromptTokensDetails{
+			AudioTokens:  completation.Usage.PromptTokensDetails.AudioTokens,
+			CachedTokens: completation.Usage.PromptTokensDetails.CachedTokens,
+		}
 	}
 
 	return detailed
