@@ -496,10 +496,11 @@ type AgentEvaluation struct {
 }
 
 type AgentStep struct {
-	StepType      string         `json:"step_type"`      // "initial", "tool_execution", "response"
-	InputMessages []llm.Message  `json:"input_message"`  // Messages sent to the LLM
-	OutputMessage llm.Message    `json:"output_message"` // Response from the LLM
-	ToolCalls     []llm.ToolCall `json:"tool_calls"`     // Tool calls made
-	ToolResponses []llm.Message  `json:"tool_responses"` // Responses from the tools
-	TokenUsage    llm.Usage      `json:"token_usage"`    // Token usage information
+	StepType              string            `json:"step_type"`                          // "initial", "tool_execution", "response"
+	InputMessages         []llm.Message     `json:"input_message"`                      // Messages sent to the LLM
+	OutputMessage         llm.Message       `json:"output_message"`                     // Response from the LLM
+	ToolCalls             []llm.ToolCall    `json:"tool_calls"`                         // Tool calls made
+	ToolResponses         []llm.Message     `json:"tool_responses"`                     // Responses from the tools
+	TokenUsage            llm.Usage         `json:"token_usage"`                        // Token usage information
+	TokenUsageWithDetails llm.DetailedUsage `json:"token_usage_with_details,omitempty"` // Detailed token usage information
 }
