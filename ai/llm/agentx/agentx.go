@@ -369,6 +369,9 @@ func (a *Agent) EvaluateWithTools(ctx context.Context, userInput string) (*Agent
 
 	evalStep.OutputMessage = response.Message
 	evalStep.TokenUsage = response.Usage
+	if response.DetailedUsage != nil {
+		evalStep.TokenUsageWithDetails = *response.DetailedUsage
+	}
 	eval.Steps = append(eval.Steps, evalStep)
 
 	// Add the response to memory
