@@ -108,6 +108,11 @@ func DebugStruct(name string, value any) {
 	defaultLogger.DebugStruct(name, value)
 }
 
+// InfoStruct logs a struct with full formatting at info level globally
+func InfoStruct(name string, value any) {
+	defaultLogger.InfoStruct(name, value)
+}
+
 // TraceStruct logs a struct with full debug formatting at trace level globally
 func TraceStruct(name string, value any) {
 	defaultLogger.TraceStruct(name, value)

@@ -308,6 +308,38 @@ func (l *Logger) DebugStruct(name string, value any) {
 	}
 }
 
+// InfoStruct logs a struct with full formatting at info level
+func (l *Logger) InfoStruct(name string, value any) {
+	if !l.IsLevelEnabled(InfoLevel) {
+		return
+	}
+
+	switch l.format {
+	case FormatJSON:
+		logEntry := map[string]any{
+			"timestamp": time.Now().Format(time.RFC3339),
+			"level":     "INFO",
+			"message":   fmt.Sprintf("%s = %s", name, l.cloudFormatter.Format(value)),
+			"struct":    value,
+		}
+		if l.showCaller {
+			caller := l.findCaller()
+			if caller != "" {
+				logEntry["caller"] = strings.TrimSpace(caller)
+			}
+		}
+		if data, err := json.Marshal(logEntry); err == nil {
+			fmt.Fprintln(l.out, string(data))
+		}
+	case FormatCloudWatch:
+		formatted := l.cloudFormatter.Format(value)
+		l.logCloudWatch(InfoLevel, false, "%s = %s", name, formatted)
+	default:
+		formatted := l.debugFormatter.Format(value)
+		l.logConsole(InfoLevel, false, "%s = %s", name, formatted)
+	}
+}
+
 // TraceStruct logs a struct with full debug formatting at trace level
 func (l *Logger) TraceStruct(name string, value any) {
 	if !l.IsLevelEnabled(TraceLevel) {
