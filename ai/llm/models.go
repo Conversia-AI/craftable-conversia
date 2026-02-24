@@ -22,9 +22,11 @@ type Message struct {
 
 // Usage represents token usage statistics
 type Usage struct {
-	PromptTokens     int `json:"prompt_tokens"`
-	CompletionTokens int `json:"completion_tokens"`
-	TotalTokens      int `json:"total_tokens"`
+	PromptTokens         int `json:"prompt_tokens"`
+	CachedPromptTokens   int `json:"cached_prompt_tokens,omitempty"`
+	UncachedPromptTokens int `json:"uncached_prompt_tokens,omitempty"`
+	CompletionTokens     int `json:"completion_tokens"`
+	TotalTokens          int `json:"total_tokens"`
 }
 
 // FunctionCall represents a function call in a message
