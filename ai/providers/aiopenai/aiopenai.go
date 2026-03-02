@@ -496,10 +496,35 @@ func convertFromOpenAIResponse(completion *openai.ChatCompletion) (llm.Response,
 		message.ToolCalls = toolCalls
 	}
 
+	promptTokens := int(completion.Usage.PromptTokens)
+	cachedPromptTokens := int(completion.Usage.PromptTokensDetails.CachedTokens)
+	if cachedPromptTokens < 0 {
+		cachedPromptTokens = 0
+	}
+	if cachedPromptTokens > promptTokens {
+		cachedPromptTokens = promptTokens
+	}
+	uncachedPromptTokens := promptTokens - cachedPromptTokens
+	completionTokens := int(completion.Usage.CompletionTokens)
+	totalTokens := int(completion.Usage.TotalTokens)
+	reasoningTokens := int(completion.Usage.CompletionTokensDetails.ReasoningTokens)
+
 	usage := llm.Usage{
-		PromptTokens:     int(completion.Usage.PromptTokens),
-		CompletionTokens: int(completion.Usage.CompletionTokens),
-		TotalTokens:      int(completion.Usage.TotalTokens),
+		PromptTokens:         promptTokens,
+		CachedPromptTokens:   cachedPromptTokens,
+		UncachedPromptTokens: uncachedPromptTokens,
+		CompletionTokens:     completionTokens,
+		TotalTokens:          totalTokens,
+	}
+
+	message.Metadata = map[string]any{
+		"openai_model":                   completion.Model,
+		"openai_prompt_tokens":           promptTokens,
+		"openai_cached_prompt_tokens":    cachedPromptTokens,
+		"openai_uncached_prompt_tokens":  uncachedPromptTokens,
+		"openai_completion_tokens":       completionTokens,
+		"openai_total_tokens":            totalTokens,
+		"openai_reasoning_output_tokens": reasoningTokens,
 	}
 
 	return llm.Response{
