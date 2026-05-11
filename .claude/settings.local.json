@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C \"D:\\\\Brando\\\\Proyectos\\\\Individual\\\\Conversia\\\\conversia-flow\\\\craftable-conversia\" log --oneline -5)",
+      "Bash(git -C \"D:\\\\Brando\\\\Proyectos\\\\Individual\\\\Conversia\\\\conversia-flow\\\\craftable-conversia\" tag --sort=-v:refname)",
+      "Bash(git -C \"D:\\\\Brando\\\\Proyectos\\\\Individual\\\\Conversia\\\\conversia-flow\\\\craftable-conversia\" status)",
+      "Bash(Get-ChildItem \"D:\\\\Brando\\\\Proyectos\\\\Individual\\\\Conversia\\\\conversia-flow\\\\FrAlCubo\" -Filter \"go.mod\" -Recurse)",
+      "Bash(Select-Object FullName)"
+    ]
+  }
+}

@@ -11,6 +11,7 @@ import (
 	"io"
 	"mime/multipart"
 	"net/http"
+	"net/textproto"
 	"regexp"
 	"sort"
 	"strconv"
@@ -1568,10 +1569,24 @@ func (w *WhatsAppProvider) UploadMedia(ctx context.Context, filename string, mim
 		}
 	}
 
-	// file (binary)
-	fw, err := writer.CreateFormFile("file", filename)
+	// file (binary) — use CreatePart so the file part carries the correct
+	// Content-Type. CreateFormFile always sets application/octet-stream, which
+	// causes Meta to reject the upload with a 400 "Invalid message format".
+	partMime := strings.TrimSpace(mimeType)
+	if partMime == "" {
+		partMime = "application/octet-stream"
+	}
+	// Simplify compound MIME types (e.g. "audio/ogg; codecs=opus" → "audio/ogg")
+	// so they match the exact types accepted by the WhatsApp Media API.
+	if idx := strings.Index(partMime, ";"); idx > 0 {
+		partMime = strings.TrimSpace(partMime[:idx])
+	}
+	fh := make(textproto.MIMEHeader)
+	fh.Set("Content-Disposition", fmt.Sprintf(`form-data; name="file"; filename="%s"`, filename))
+	fh.Set("Content-Type", partMime)
+	fw, err := writer.CreatePart(fh)
 	if err != nil {
-		return "", fmt.Errorf("failed to create form file: %w", err)
+		return "", fmt.Errorf("failed to create form file part: %w", err)
 	}
 	if _, err := io.Copy(fw, bytes.NewReader(data)); err != nil {
 		return "", fmt.Errorf("failed to write file data: %w", err)
