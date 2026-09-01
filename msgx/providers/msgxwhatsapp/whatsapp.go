@@ -498,7 +498,14 @@ func (w *WhatsAppProvider) convertToWhatsAppMessage(
 	whatsappMsg := &whatsappMessage{
 		MessagingProduct: "whatsapp",
 		RecipientType:    "individual",
-		To:               w.cleanPhoneNumber(msg.To),
+	}
+	// BSUID destinations (e.g. "PE.3586160921531832") go in the recipient field and
+	// must not be digit-cleaned: stripping the country prefix yields an undeliverable
+	// pseudo-phone (Meta error 131026).
+	if isBSUID(msg.To) {
+		whatsappMsg.Recipient = strings.TrimSpace(msg.To)
+	} else {
+		whatsappMsg.To = w.cleanPhoneNumber(msg.To)
 	}
 
 	switch msg.Type {
@@ -1082,7 +1089,22 @@ func (w *WhatsAppProvider) convertWhatsAppMessage(message whatsappIncomingMessag
 	return incomingMsg, nil
 }
 
+// bsuidPattern matches Meta's business-scoped user IDs: ISO 3166 alpha-2 country
+// code + period + up to 128 alphanumeric characters (parent BSUIDs carry an extra
+// "ENT." segment), e.g. "US.13491208655302741918".
+var bsuidPattern = regexp.MustCompile(`^[A-Z]{2}\.(ENT\.)?[A-Za-z0-9]{1,128}$`)
+
+// isBSUID reports whether the destination is a business-scoped user ID rather than
+// a phone number. BSUIDs are opaque: never digit-clean them.
+func isBSUID(destination string) bool {
+	return bsuidPattern.MatchString(strings.TrimSpace(destination))
+}
+
 func (w *WhatsAppProvider) cleanPhoneNumber(phoneNumber string) string {
+	// A BSUID is not a phone: pass it through untouched so no caller can mangle it.
+	if trimmed := strings.TrimSpace(phoneNumber); isBSUID(trimmed) {
+		return trimmed
+	}
 	// Remove all non-digit characters except '+'
 	cleaned := ""
 	for _, char := range phoneNumber {
@@ -1277,9 +1299,13 @@ func (w *WhatsAppProvider) SendWithTyping(ctx context.Context, message msgx.Mess
 
 // Send message structures
 type whatsappMessage struct {
-	MessagingProduct string                   `json:"messaging_product"`
-	RecipientType    string                   `json:"recipient_type"`
-	To               string                   `json:"to"`
+	MessagingProduct string `json:"messaging_product"`
+	RecipientType    string `json:"recipient_type"`
+	// To carries a phone number destination. For BSUID destinations (WhatsApp
+	// username rollout) Meta requires the Recipient field instead; exactly one of
+	// the two is set per message.
+	To               string                   `json:"to,omitempty"`
+	Recipient        string                   `json:"recipient,omitempty"`
 	Type             string                   `json:"type"`
 	Text             *whatsappTextMessage     `json:"text,omitempty"`
 	Image            *whatsappMediaMessage    `json:"image,omitempty"`
