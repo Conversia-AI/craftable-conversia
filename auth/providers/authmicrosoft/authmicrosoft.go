@@ -87,11 +87,13 @@ type MicrosoftProvider struct {
 // NewMicrosoftProvider creates a new Microsoft OAuth provider with common tenant
 func NewMicrosoftProvider(clientID, clientSecret, redirectURI string) *MicrosoftProvider {
 	return &MicrosoftProvider{
-		clientID:                 clientID,
-		clientSecret:             clientSecret,
-		redirectURI:              redirectURI,
-		tenant:                   defaultTenant,
-		scopes:                   []string{"openid", "profile", "email", "User.Read"},
+		clientID:     clientID,
+		clientSecret: clientSecret,
+		redirectURI:  redirectURI,
+		tenant:       defaultTenant,
+		// offline_access: emite el refresh token (antes se "garantizaba" con
+		// prompt=consent, que rompía tenants corporativos — ver GetAuthURL).
+		scopes:                   []string{"openid", "profile", "email", "offline_access", "User.Read"},
 		httpClient:               &http.Client{Timeout: 15 * time.Second}, // Slightly longer timeout for Microsoft
 		tenantExtractionStrategy: TenantFromBoth,                          // Default to most comprehensive strategy
 		enableProfilePicture:     true,
@@ -105,7 +107,7 @@ func NewMicrosoftProviderWithTenant(clientID, clientSecret, redirectURI, tenant 
 		clientSecret:             clientSecret,
 		redirectURI:              redirectURI,
 		tenant:                   tenant,
-		scopes:                   []string{"openid", "profile", "email", "User.Read"},
+		scopes:                   []string{"openid", "profile", "email", "offline_access", "User.Read"},
 		httpClient:               &http.Client{Timeout: 15 * time.Second},
 		tenantExtractionStrategy: TenantFromBoth,
 		enableProfilePicture:     true,
@@ -153,7 +155,13 @@ func (p *MicrosoftProvider) GetAuthURL(state string) string {
 	params.Add("response_mode", "query")
 	params.Add("scope", strings.Join(p.scopes, " "))
 	params.Add("state", state)
-	params.Add("prompt", "consent") // Force consent to ensure refresh token
+	// select_account: deja elegir la cuenta sin forzar re-consentimiento.
+	// NUNCA prompt=consent: en tenants corporativos con el consentimiento de
+	// usuario deshabilitado (p. ej. universidades), forzarlo re-dispara el
+	// workflow de "Aprobación necesaria" del admin en CADA login, aunque el
+	// admin ya haya aprobado la app (bug Siglo 21, 8-sep-2026). El refresh
+	// token se garantiza con el scope offline_access, no con prompt.
+	params.Add("prompt", "select_account")
 
 	return fmt.Sprintf("%s?%s", authURL, params.Encode())
 }
