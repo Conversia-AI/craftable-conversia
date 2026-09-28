@@ -416,6 +416,12 @@ func convertToOpenAIToolChoice(toolChoice any) openai.ChatCompletionToolChoiceOp
 
 func convertToOpenAIReasoningEffort(effort string) shared.ReasoningEffort {
 	switch strings.ToLower(effort) {
+	case "none":
+		// gpt-5.4/gpt-5.5/gpt-5.6 only accept function tools on
+		// /v1/chat/completions with reasoning_effort "none"; mapping it to the
+		// medium default made those requests fail with 400. The SDK has no
+		// constant for it, but the field is a plain string on the wire.
+		return shared.ReasoningEffort("none")
 	case "low":
 		return shared.ReasoningEffortLow
 	case "medium":
