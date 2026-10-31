@@ -27,6 +27,10 @@ type Usage struct {
 	UncachedPromptTokens int `json:"uncached_prompt_tokens,omitempty"`
 	CompletionTokens     int `json:"completion_tokens"`
 	TotalTokens          int `json:"total_tokens"`
+	// CacheWriteTokens son los tokens del prompt que esta request escribió en
+	// el cache de prompts del proveedor, si el proveedor los reporta (OpenAI:
+	// usage.prompt_tokens_details.cache_write_tokens). 0 si no los reporta.
+	CacheWriteTokens int `json:"cache_write_tokens,omitempty"`
 }
 
 // FunctionCall represents a function call in a message

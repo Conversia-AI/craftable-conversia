@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -107,6 +108,10 @@ func (p *OpenAIProvider) Chat(ctx context.Context, messages []llm.Message, opts 
 		params.User = openai.String(options.User)
 	}
 
+	if options.PromptCacheKey != "" {
+		params.PromptCacheKey = openai.String(options.PromptCacheKey)
+	}
+
 	// Add LogitBias
 	if len(options.LogitBias) > 0 {
 		logitBias := make(map[string]int64)
@@ -198,6 +203,10 @@ func (p *OpenAIProvider) ChatStream(ctx context.Context, messages []llm.Message,
 	// Set reasoning effort for reasoning models
 	if options.ReasoningEffort != "" {
 		params.ReasoningEffort = convertToOpenAIReasoningEffort(options.ReasoningEffort)
+	}
+
+	if options.PromptCacheKey != "" {
+		params.PromptCacheKey = openai.String(options.PromptCacheKey)
 	}
 
 	// Convert tools
@@ -521,6 +530,7 @@ func convertFromOpenAIResponse(completion *openai.ChatCompletion) (llm.Response,
 		UncachedPromptTokens: uncachedPromptTokens,
 		CompletionTokens:     completionTokens,
 		TotalTokens:          totalTokens,
+		CacheWriteTokens:     parseCacheWriteTokens(completion.Usage.PromptTokensDetails),
 	}
 
 	message.Metadata = map[string]any{
@@ -538,6 +548,25 @@ func convertFromOpenAIResponse(completion *openai.ChatCompletion) (llm.Response,
 		Message: message,
 		Usage:   usage,
 	}, nil
+}
+
+// parseCacheWriteTokens lee usage.prompt_tokens_details.cache_write_tokens, que
+// openai-go v3.8.1 no tipa y deja en JSON.ExtraFields. Devuelve 0 si el campo no
+// viene, es null, no es un entero no negativo o está malformado; nunca hace panic.
+func parseCacheWriteTokens(details openai.CompletionUsagePromptTokensDetails) int {
+	field, ok := details.JSON.ExtraFields["cache_write_tokens"]
+	if !ok {
+		return 0
+	}
+	raw := strings.TrimSpace(field.Raw())
+	if raw == "" || raw == "null" {
+		return 0
+	}
+	n, err := strconv.ParseInt(raw, 10, 0)
+	if err != nil || n < 0 {
+		return 0
+	}
+	return int(n)
 }
 
 func (p *OpenAIProvider) EmbedDocuments(ctx context.Context, documents []string, opts ...embedding.Option) ([]embedding.Embedding, error) {

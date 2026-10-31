@@ -23,6 +23,8 @@ type ChatOptions struct {
 
 	ReasoningEffort string // Reasoning effort level: "low", "medium", "high"
 
+	PromptCacheKey string // Clave de cache de prompts del proveedor; solo se envía si no está vacía
+
 }
 
 // Option is a function type to modify ChatOptions
@@ -148,6 +150,14 @@ func WithUser(user string) Option {
 func WithReasoningEffort(effort string) Option {
 	return func(o *ChatOptions) {
 		o.ReasoningEffort = effort
+	}
+}
+
+// WithPromptCacheKey fija la clave de cache de prompts (OpenAI: prompt_cache_key).
+// Con una clave vacía el campo no se envía en la request.
+func WithPromptCacheKey(key string) Option {
+	return func(o *ChatOptions) {
+		o.PromptCacheKey = key
 	}
 }
 
