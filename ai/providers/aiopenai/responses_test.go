@@ -588,3 +588,30 @@ func TestResponsesToolCallsParalelasYToolChoice(t *testing.T) {
 		}
 	}
 }
+
+// La Responses API rechaza números con más de 16 decimales: float64(float32(0.1))
+// = 0.10000000149011612 daba 400 "max decimal places exceeded" (guardrail v1.5,
+// temperature 0.1 con effort none). El body tiene que llevar 0.1.
+func TestResponsesTemperatureFloat32SinRuidoDecimal(t *testing.T) {
+	t.Parallel()
+	f := newFakeResponsesServer(t, respFinalMessage)
+	if _, err := f.provider().Chat(context.Background(), []llm.Message{llm.NewUserMessage("x")},
+		llm.WithModel("gpt-6-luna"), llm.WithReasoningEffort("none"), llm.WithTemperature(0.1), llm.WithTopP(0.9)); err != nil {
+		t.Fatal(err)
+	}
+	raw := f.rawBody(0)
+	if !strings.Contains(raw, `"temperature":0.1,`) && !strings.Contains(raw, `"temperature":0.1}`) {
+		t.Fatalf("temperature con ruido decimal: %s", raw)
+	}
+	if !strings.Contains(raw, `"top_p":0.9`) || strings.Contains(raw, "0.8999") || strings.Contains(raw, "0.1000") {
+		t.Fatalf("top_p con ruido decimal: %s", raw)
+	}
+	for _, c := range []struct {
+		in   float32
+		want float64
+	}{{0.1, 0.1}, {0.2, 0.2}, {0.7, 0.7}, {1, 1}, {0.15, 0.15}} {
+		if got := float32ToDecimal(c.in); got != c.want {
+			t.Fatalf("float32ToDecimal(%v) = %v, want %v", c.in, got, c.want)
+		}
+	}
+}
