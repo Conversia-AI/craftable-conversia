@@ -521,3 +521,70 @@ func TestResponsesReplayStoreEviction(t *testing.T) {
 		t.Fatalf("sin encrypted_content no debe guardarse: %v", got)
 	}
 }
+
+func TestResponsesStatusNoTerminalEsError(t *testing.T) {
+	t.Parallel()
+	for _, st := range []string{"cancelled", "queued", "in_progress"} {
+		f := newFakeResponsesServer(t, `{"id":"r","object":"response","created_at":0,"model":"gpt-6-luna","status":"`+st+`","output":[],"usage":{"input_tokens":0,"input_tokens_details":{"cached_tokens":0},"output_tokens":0,"output_tokens_details":{"reasoning_tokens":0},"total_tokens":0}}`)
+		if _, err := f.provider().Chat(context.Background(), []llm.Message{llm.NewUserMessage("x")}, llm.WithModel("gpt-6-luna")); err == nil || !strings.Contains(err.Error(), st) {
+			t.Fatalf("status %s: err = %v", st, err)
+		}
+	}
+}
+
+func TestResponsesModeloChatNoRazonaYAceptaTemperature(t *testing.T) {
+	t.Parallel()
+	if isReasoningModelFamily("gpt-5.1-chat-latest") || !isReasoningModelFamily("gpt-5.1") || !isReasoningModelFamily("gpt-6-luna") || isReasoningModelFamily("gpt-4.1") {
+		t.Fatal("isReasoningModelFamily")
+	}
+}
+
+// Tool calls paralelas en una respuesta: todas comparten el reasoning, que se
+// reenvía una sola vez aunque el historial las parta en dos mensajes; cada
+// function_call lleva su id. tool_choice none/required se mapean.
+func TestResponsesToolCallsParalelasYToolChoice(t *testing.T) {
+	t.Parallel()
+	const r1 = `{"id":"r1","object":"response","created_at":0,"model":"gpt-6-luna","status":"completed","output":[
+ {"id":"rs_p","type":"reasoning","summary":[],"encrypted_content":"ENC-P"},
+ {"id":"fc_a","type":"function_call","status":"completed","call_id":"call_a","name":"lookup_part","arguments":"{}"},
+ {"id":"fc_b","type":"function_call","status":"completed","call_id":"call_b","name":"lookup_part","arguments":"{}"}
+],"usage":{"input_tokens":1,"input_tokens_details":{"cached_tokens":0},"output_tokens":1,"output_tokens_details":{"reasoning_tokens":1},"total_tokens":2}}`
+	f := newFakeResponsesServer(t, r1, respFinalMessage, respFinalMessage)
+	p := f.provider()
+	ctx := context.Background()
+	r, err := p.Chat(ctx, []llm.Message{llm.NewUserMessage("x")}, llm.WithModel("gpt-6-luna"), llm.WithToolChoice("required"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(r.Message.ToolCalls) != 2 {
+		t.Fatalf("tool calls = %+v", r.Message.ToolCalls)
+	}
+	if f.body(0)["tool_choice"] != "required" {
+		t.Fatalf("tool_choice = %v", f.body(0)["tool_choice"])
+	}
+	// Juntas en un mensaje.
+	hist := []llm.Message{llm.NewUserMessage("x"), {Role: llm.RoleAssistant, ToolCalls: r.Message.ToolCalls},
+		llm.NewToolMessage("call_a", "1"), llm.NewToolMessage("call_b", "2")}
+	if _, err := p.Chat(ctx, hist, llm.WithModel("gpt-6-luna"), llm.WithToolChoice("none")); err != nil {
+		t.Fatal(err)
+	}
+	// Partidas en dos mensajes.
+	hist2 := []llm.Message{llm.NewUserMessage("x"),
+		{Role: llm.RoleAssistant, ToolCalls: r.Message.ToolCalls[:1]}, llm.NewToolMessage("call_a", "1"),
+		{Role: llm.RoleAssistant, ToolCalls: r.Message.ToolCalls[1:]}, llm.NewToolMessage("call_b", "2")}
+	if _, err := p.Chat(ctx, hist2, llm.WithModel("gpt-6-luna")); err != nil {
+		t.Fatal(err)
+	}
+	if f.body(1)["tool_choice"] != "none" {
+		t.Fatalf("tool_choice = %v", f.body(1)["tool_choice"])
+	}
+	for i := 1; i <= 2; i++ {
+		raw := f.rawBody(i)
+		if strings.Count(raw, `"ENC-P"`) != 1 {
+			t.Fatalf("body %d: el reasoning debe ir exactamente una vez: %s", i, raw)
+		}
+		if !strings.Contains(raw, `"id":"fc_a"`) || !strings.Contains(raw, `"id":"fc_b"`) {
+			t.Fatalf("body %d: cada function_call lleva su id: %s", i, raw)
+		}
+	}
+}

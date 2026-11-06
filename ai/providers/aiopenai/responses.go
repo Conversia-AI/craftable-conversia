@@ -93,10 +93,14 @@ func (p *OpenAIResponsesProvider) Chat(ctx context.Context, messages []llm.Messa
 	if err != nil {
 		return llm.Response{}, err
 	}
-	if resp.Status == responses.ResponseStatusFailed {
+	switch resp.Status {
+	case responses.ResponseStatusCompleted, responses.ResponseStatusIncomplete, "":
+	default:
+		// failed, cancelled, queued, in_progress: sin background no deberían
+		// llegar; si llegan, no hay una respuesta usable (CR1-03).
 		msg := strings.TrimSpace(resp.Error.Message)
 		if msg == "" {
-			msg = "response status failed"
+			msg = "response status " + string(resp.Status)
 		}
 		return llm.Response{}, errors.New("aiopenai responses: " + msg)
 	}
@@ -193,6 +197,11 @@ func (p *OpenAIResponsesProvider) buildResponsesParams(messages []llm.Message, o
 // rechaza temperature/top_p sin effort "none").
 func isReasoningModelFamily(model string) bool {
 	m := strings.ToLower(strings.TrimSpace(model))
+	// Las variantes "-chat" (gpt-5-chat-latest, gpt-5.1-chat-latest) no
+	// razonan y aceptan temperature (CR1-04).
+	if strings.Contains(m, "-chat") {
+		return false
+	}
 	for _, p := range []string{"gpt-5", "gpt-6", "o1", "o3", "o4"} {
 		if strings.HasPrefix(m, p) {
 			return true
@@ -215,6 +224,9 @@ func normalizeResponsesEffort(effort string) (string, bool) {
 
 func (p *OpenAIResponsesProvider) convertToResponsesInput(messages []llm.Message) (responses.ResponseInputParam, error) {
 	input := make(responses.ResponseInputParam, 0, len(messages))
+	// Un mismo reasoning no se reenvía dos veces en un request (si las tool
+	// calls de una respuesta quedaran en varios mensajes; CR1-01).
+	reasoningEnviado := map[string]bool{}
 	for _, msg := range messages {
 		switch msg.Role {
 		case llm.RoleSystem:
@@ -234,7 +246,15 @@ func (p *OpenAIResponsesProvider) convertToResponsesInput(messages []llm.Message
 			// (1) reasoning de este turno que precedió a estas tool calls, con
 			// los ids de sus function_call (forma del sondeo Q2; RV2-01).
 			reasoning, fcIDs := p.replay.itemsFor(msg.ToolCalls)
-			input = append(input, reasoning...)
+			for _, r := range reasoning {
+				if r.OfReasoning != nil && reasoningEnviado[r.OfReasoning.ID] {
+					continue
+				}
+				if r.OfReasoning != nil {
+					reasoningEnviado[r.OfReasoning.ID] = true
+				}
+				input = append(input, r)
+			}
 			// (2) texto que acompañó a las tool calls, si lo hubo.
 			if strings.TrimSpace(msg.Content) != "" {
 				input = append(input, responses.ResponseInputItemParamOfMessage(msg.Content, responses.EasyInputMessageRoleAssistant))
