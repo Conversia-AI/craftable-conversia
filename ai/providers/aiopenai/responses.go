@@ -140,10 +140,10 @@ func (p *OpenAIResponsesProvider) buildResponsesParams(messages []llm.Message, o
 	// razonan) la API los rechaza con 400 (02 §1.2; revisión RV2-05).
 	samplingAllowed := effort == "none" || (!effortSet && !isReasoningModelFamily(options.Model))
 	if samplingAllowed && options.Temperature != 0 {
-		params.Temperature = openai.Float(float64(options.Temperature))
+		params.Temperature = openai.Float(float32ToDecimal(options.Temperature))
 	}
 	if samplingAllowed && options.TopP != 0 {
-		params.TopP = openai.Float(float64(options.TopP))
+		params.TopP = openai.Float(float32ToDecimal(options.TopP))
 	}
 
 	maxTokens := options.MaxCompletionTokens
@@ -191,6 +191,19 @@ func (p *OpenAIResponsesProvider) buildResponsesParams(messages []llm.Message, o
 	}
 
 	return params, reqOpts, nil
+}
+
+// float32ToDecimal convierte un float32 al float64 con el decimal más corto que
+// lo representa (0.1 → 0.1, no 0.10000000149011612). La Responses API rechaza
+// con 400 los números con más de 16 decimales ("max decimal places
+// exceeded"), que es lo que produce float64(float32(0.1)); chat/completions
+// los aceptaba.
+func float32ToDecimal(v float32) float64 {
+	f, err := strconv.ParseFloat(strconv.FormatFloat(float64(v), 'g', -1, 32), 64)
+	if err != nil {
+		return float64(v)
+	}
+	return f
 }
 
 // isReasoningModelFamily dice si el modelo razona por default (y por lo tanto
