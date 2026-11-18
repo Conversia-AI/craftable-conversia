@@ -117,6 +117,11 @@ const (
 type ResponseFormat struct {
 	Type       ResponseFormatType `json:"type"`
 	JSONSchema any                `json:"schema,omitempty"` // Optional JSON schema for JSONSchema type
+	// Strict activa Structured Outputs (strict: true) en JSONSchema: el modelo
+	// queda obligado a cumplir el schema. Exige un schema compatible (todas las
+	// propiedades en required, additionalProperties: false en cada objeto);
+	// si no lo es, OpenAI responde 400. Opt-in: false no envía el campo.
+	Strict bool `json:"strict,omitempty"`
 }
 
 // WithResponseFormat specifies the output format
@@ -141,6 +146,19 @@ func WithJSONSchemaResponseFormat(schema any) Option {
 		o.ResponseFormat = &ResponseFormat{
 			Type:       JSONSchema,
 			JSONSchema: schema,
+		}
+	}
+}
+
+// WithStrictJSONSchemaResponseFormat es WithJSONSchemaResponseFormat con
+// strict: true (Structured Outputs): la salida cumple el schema garantizado
+// por el proveedor. El schema tiene que ser compatible con el modo strict.
+func WithStrictJSONSchemaResponseFormat(schema any) Option {
+	return func(o *ChatOptions) {
+		o.ResponseFormat = &ResponseFormat{
+			Type:       JSONSchema,
+			JSONSchema: schema,
+			Strict:     true,
 		}
 	}
 }

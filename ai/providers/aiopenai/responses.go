@@ -350,9 +350,11 @@ func convertToResponsesTextFormat(format *llm.ResponseFormat) (responses.Respons
 				return responses.ResponseFormatTextConfigUnionParam{}, false
 			}
 		}
-		return responses.ResponseFormatTextConfigUnionParam{
-			OfJSONSchema: &responses.ResponseFormatTextJSONSchemaConfigParam{Name: "schema", Schema: schema},
-		}, true
+		jsonSchema := &responses.ResponseFormatTextJSONSchemaConfigParam{Name: "schema", Schema: schema}
+		if format.Strict {
+			jsonSchema.Strict = param.NewOpt(true)
+		}
+		return responses.ResponseFormatTextConfigUnionParam{OfJSONSchema: jsonSchema}, true
 	default:
 		return responses.ResponseFormatTextConfigUnionParam{}, false
 	}
