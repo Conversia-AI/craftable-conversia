@@ -469,13 +469,15 @@ func convertToResponseFormatParam(format *llm.ResponseFormat) openai.ChatComplet
 			}
 		}
 
+		jsonSchema := shared.ResponseFormatJSONSchemaJSONSchemaParam{
+			Name:   "schema",
+			Schema: schema,
+		}
+		if format.Strict {
+			jsonSchema.Strict = openai.Bool(true)
+		}
 		return openai.ChatCompletionNewParamsResponseFormatUnion{
-			OfJSONSchema: &shared.ResponseFormatJSONSchemaParam{
-				JSONSchema: shared.ResponseFormatJSONSchemaJSONSchemaParam{
-					Name:   "schema",
-					Schema: schema,
-				},
-			},
+			OfJSONSchema: &shared.ResponseFormatJSONSchemaParam{JSONSchema: jsonSchema},
 		}
 	default:
 		return openai.ChatCompletionNewParamsResponseFormatUnion{
